@@ -19,5 +19,5 @@ BookInstanceSchema
     });
 
 // Export model
-module.exports = mongoose.model('BookInstance', BookinstanceSchema);
+module.exports = mongoose.model('BookInstance', BookInstanceSchema);
 
