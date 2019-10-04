@@ -10,7 +10,7 @@ var book_instance_controller = require('../controllers/bookinstanceController');
 /// BOOK ROUTES ///
 
 // GET catalog homepage.
-router.get('/', book_controller.index);
+router.get('/', book_controller.index); // This actually maps to /catalog/ because we import the route with a /catalog prefix
 
 // CREATE일때, HTTP METHOD가 GET, POST방식에 따라 다른 라우터에 접근됨.
 // NOTE This must come before routes that display Book(uses id).
