@@ -6,7 +6,7 @@ var BookInstance = require('../models/bookinstance');
 var async = require('async');
 
 exports.index = function(req, res) {
-    
+
     // async.parallel() method is passed an object with functions for getting the counts for each of our models!!!
     async.parallel({ 
         book_count: function(callback) {
@@ -15,7 +15,7 @@ exports.index = function(req, res) {
         book_instance_count: function(callback) {
             BookInstance.countDocuments({}, callback);
         },
-        book_instasnce_available_count: function(callback) {
+        book_instance_available_count: function(callback) {
             BookInstance.countDocuments({status:'Available'}, callback);
         },
         author_count: function(callback) {
@@ -30,8 +30,15 @@ exports.index = function(req, res) {
 };
 
 // Display list of all books.
-exports.book_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book List');
+exports.book_list = function(req, res, next) {
+
+    Book.find({}, 'title author')
+        .populate('author') // This .populate() method will replace the sotred book author id with the full author details
+        .exec(function (err, list_books) {
+            if (err) { return next(err); }
+            // Successful, so render
+            else res.render('book_list', { title: 'Book List', book_list: list_books }); // book_list is .pug file
+        });
 };
 
 // Display detail page for a specific book.
